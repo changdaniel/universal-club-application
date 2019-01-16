@@ -1,0 +1,27 @@
+h1 Student Signup
+
+
+form(action = '/signup-check', method ='GET')
+
+    span(style='display:inline-block')
+        label(style='display:block') First name
+        input(type='text', name='lastname')
+    span(style='display:inline-block')
+        label(style='display:block') Last name
+        input(type='text', name='firstname')
+        
+    label(style='display:block') Username
+    input(type = "text" name = 'username')   
+    br
+
+    label(style='display:block') Email address
+    input(type="text" name="email")
+    
+
+    label(style='display:block') Password
+    input(type = "password" name="password1")
+    label(style='display:block') Confirm password
+    input(type = "password" name="password2")
+    
+    input(type = 'submit' value = "submit")
+
