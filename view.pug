@@ -1,0 +1,20 @@
+h1 CLUB FORM
+p Please enter your answers below
+
+form(action='/done', method='GET')
+    if questions
+         p= questions[0]
+    input(type='text', name='A1')
+    br
+    if questions
+        p= questions[1]
+    input(type='text', name='A2')
+    br
+    if questions
+        p= questions[2]
+    input(type='text', name='A3')
+    br
+
+    br
+
+    input(type='submit')
