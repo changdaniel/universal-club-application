@@ -169,22 +169,39 @@ app.listen(8080, function () {
 
 //Home Page after clubs log in
 app.get('/club-home', function(request,response){
-  db.run(`CREATE TABLE IF NOT EXISTS.club_name(
+  username = request.query.username;
+  db.run(`CREATE TABLE IF NOT EXISTS` + username + '_application' + `(
     Userid INTEGER PRIMARY KEY
-    first_name TEXT NOT NULL
-    last_name TEXT NOT NULL
+    name TEXT NOT NULL
     email text NOT NULL UNIQUE
-    year INTEGER NOT NULL
+    year INTEGER 
     question1 TEXT NOT NULL
     question2 TEXT NOT NULL
     question3 TEXT 
     question4 TEXT 
     question5 TEXT 
   );`);
-  response.render('club-home-page');
+  response.render('club-home');
 })
 
 //After the submission of forms
-app.get('/submitted', function(requst, response){
-  db.run(`INSERT INTO club_name(Userid, first_name, last_name, email, year, question1, question2, question3, question4, question5) VALUES(?,?,?,?,?,?,?,?,?);`)
+app.get('/submitted', function(request, response){
+  userid = request.query.userid;
+  name = request.query.name;
+  email = request.query.email;
+  year = request.query.year;
+  question1 = request.query.question1;
+  question2 = request.query.question2;
+  question3 = request.query.question3;
+  question4 = request.query.question4;
+  question5 = request.query.question5;
+
+  db.run(`INSERT INTO club_name(Userid, first_name, last_name, email, year, question1, question2, question3, question4, question5) VALUES(?,?,?,?,?,?,?,?);` (userid), (name), (email), (year), (question1), (question2), (question3), (question4), (question5))
+  response.render('submitted');
+})
+
+app.get('/personal-info', function(request,response){
+  userid = request.query.userid;
+  
+  db.run('SELECT * FROM accountinfo ')
 })
