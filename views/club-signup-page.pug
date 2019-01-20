@@ -1,3 +1,4 @@
+h1 Club Signup
 head
     // Required meta tags
     meta(charset='utf-8')
@@ -6,12 +7,12 @@ head
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
     link( href='/form/css/global.css' type='text/css' rel='stylesheet')
 body
-form(action = '/login-check', method ='GET')
+form(action = '/club-signup-validation', method ='GET')
     .form-group
-    label(for='inputEmail') Email
-    input#inputUsername.form-control(type='email', name='email' placeholder='Email')
+    label(for='inputClubName') Club Name
+    input#inputClubName.form-control(type='text', name='clubname' placeholder='Club Name')
     .form-group
     label(for='inputPassword') Password
-    input#inputPassword.form-control(type='password', name='password' placeholder='Password')
+    input#inputPassword.form-control(type='password', name='clubpassword' placeholder='Password')
     br
-    button.btn.btn-primary(type='submit') Login
+    button.btn.btn-primary(type='submit') Signup

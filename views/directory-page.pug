@@ -1,0 +1,30 @@
+link#bootstrap-css(href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css', rel='stylesheet')
+script(src='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js')
+script(src='//code.jquery.com/jquery-1.11.1.min.js')
+// ---- Include the above in your HEAD tag --------
+.container
+  .row
+    input(type='hidden', name='count', value='1')
+    #fields.control-group
+      label.control-label(for='field1') Nice Multiple Form Fields
+      #profs.controls
+        .input-append
+          input#field1.span3(autocomplete='off', name='prof1', type='text', placeholder='Type something (it has typeahead too)', data-provide='typeahead', data-items='8', data-source='["Aardvark","Beatlejuice","Capricorn","Deathmaul","Epic"]')
+          button#b1.btn.btn-info.add-more(type='button') +
+        br
+        small Press + to add another form field :)
+
+script.
+  $(document).ready(function(){
+  var next = 1;
+  $(".add-more").click(function(e){
+  e.preventDefault();
+  var addto = "#field" + next;
+  next = next + 1;
+  var newIn = '<br /><br /><input autocomplete="off" class="span3" id="field' + next + '" name="field' + next + '" type="text" data-provide="typeahead" data-items="8">';
+  var newInput = $(newIn);
+  $(addto).after(newInput);
+  $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+  $("#count").val(next);
+  });
+  });
