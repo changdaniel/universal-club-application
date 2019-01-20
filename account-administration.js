@@ -4,13 +4,12 @@ const sqlite3 = require('sqlite3').verbose();
 
 
 //Required for login
-var username = 'username'
+var email = 'email@email.com'
 var password1 = 'password'
 
 //Required for sign up 
 var firstname = 'firstname'
 var lastname = 'lastname'
-var email = 'email@email.com'
 
 //IMPLEMENT LATER CHECKING PASSWORD AND CONFIRM PASSWORD
 var password2 = 'password'
@@ -23,7 +22,7 @@ let db = new sqlite3.Database('./accounts.db', (err) => {
   console.log('Connected to accounts.db');
 });
 
-let sql = `SELECT * from accountinfo`;
+let sql = `SELECT * from accountInfo`;
 
 db.all(sql, [], (err, rows) => {
   if (err) {
@@ -52,19 +51,23 @@ app.get('/login', function (request, response) {
 
 app.get('/login-check', function (request, response) {
 
-  username = request.query.username;
+  email = request.query.email;
   password1 = request.query.password1;
 
-  console.log(username + ' ' + password1)
+  console.log(email + ' ' + password1)
 
-  let sql = "SELECT Password FROM accountInfo WHERE Username='" + username +"'";
+  let sql = "SELECT Password FROM accountInfo WHERE Email = '" + email + "'";
 
-  db.all(sql, [], (err, row) => {
+  db.each(sql, [], (err, row) => {
     if (err) {
       return console.error(err.message);
     }
+    console.log(sql)
+    console.log(row)
 
-    console.log(row.Password)
+    if (row.Password == password1) {
+      console.log('logged in!')
+    }
 
   })
 
@@ -80,77 +83,51 @@ app.get('/signup', function (request, response) {
 
 app.get('/signup-check', function (request, response) {
 
-  username = request.query.username;
+  email = request.query.email;
   password1 = request.query.password1;
   password2 = request.query.password2;
   firstname = request.query.firstname;
   lastname = request.query.lastname;
-  email = request.query.email;
-
-  let sql = "SELECT Username, Email FROM accountinfo WHERE Username = '" + username + "' OR Email = '" + email + "'";
 
 
+  let sql = "SELECT Email FROM accountInfo WHERE Email = '" + email + "'";
+  console.log('before each method')
+  console.log(sql)
+  //Checking signups only for duplicate emails
   //IMPLEMENT LATER CHECKING IF PW AND CONFIRM PW IS THE SAME, PASSWORD VALIDITY, SAME USERNAME AND EMAIL
-  /* db.all(sql, [], (err, rows) => {
+  db.each(sql, [], (err, row) => {
+
+    console.log('after each method')
     if (err) {
       return console.error(err.message);
     }
+    console.log(sql)
+    console.log(row.Email)
 
-    console.log(rows)
+    response.redirect('/invalid-signup')
+    return;
 
-    if (rows == null) {
 
-      db.run(`INSERT INTO accountInfo(Username, Password, FirstName, LastName, Email) VALUES(?, ?, ?, ?, ?);`, (username), (password1), (firstname), (lastname), (email), function (err) {
-        if (err) {
-          return console.log(err.message);
-        }
-        console.log(`A row has been inserted`);
-      })
-    }
-    else {
-      response.redirect('/invalid-signup');
-      return;
 
-    }
-  }) */
+  })
 
-  db.run(`INSERT INTO accountInfo(Username, Password, FirstName, LastName, Email) VALUES(?, ?, ?, ?, ?);`, (username), (password1), (firstname), (lastname), (email), function (err) {
+
+  db.run(`INSERT INTO accountInfo(Email, Password, FirstName, LastName) VALUES(?, ?, ?, ?);`, (email), (password1), (firstname), (lastname), function (err) {
     if (err) {
       return console.log(err.message);
     }
     console.log(`A row has been inserted`);
+    response.redirect('/login')
+
   })
 
-  response.redirect('/login')
 
 });
 
+app.get('/invalid-signup', function (request, response) {
 
-
-
-/* app.get('/signup-check', function (request, response) {
- 
-  username = request.query.username;
-  password = request.query.password;
- 
-  db.run(`INSERT INTO responses(Name, Willing, Age, Password) VALUES(?, ?, ?, ?);`, (name), (willing), (age), (password), function (err) {
-    if (err) {
-      return console.log(err.message);
-    }
-    console.log(`A row has been inserted`);
-  });
- 
-  db.all(sql, [], (err, rows) => {
-    if (err) {
-      throw err;
-    }
-    rows.forEach((row) => {
-      console.log(row);
-    });
-  });
- 
-  response.redirect('/signup-confirm')
-}) */
+  response.render('invalid-signup-page')
+})
 
 /* app.get('/display', function (request, response) {
  
