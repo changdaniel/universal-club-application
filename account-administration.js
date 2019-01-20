@@ -23,7 +23,7 @@ let db = new sqlite3.Database('./accounts.db', (err) => {
   console.log('Connected to accounts.db');
 });
 
-let sql = `SELECT * from accountinfo`;
+let sql = `SELECT * from accountInfo`;
 
 db.all(sql, [], (err, rows) => {
   if (err) {
@@ -87,7 +87,7 @@ app.get('/signup-check', function (request, response) {
   lastname = request.query.lastname;
   email = request.query.email;
 
-  let sql = "SELECT Username, Email FROM accountinfo WHERE Username = '" + username + "' OR Email = '" + email + "'";
+  let sql = "SELECT Username, Email FROM accountInfo WHERE Username = '" + username + "' OR Email = '" + email + "'";
 
 
   //IMPLEMENT LATER CHECKING IF PW AND CONFIRM PW IS THE SAME, PASSWORD VALIDITY, SAME USERNAME AND EMAIL
@@ -161,3 +161,30 @@ app.listen(8080, function () {
   console.log('Server listening on port 8080');
 
 });
+
+
+/* 
+1/19/19 Yibo
+*/
+
+//Home Page after clubs log in
+app.get('/club-home', function(request,response){
+  db.run(`CREATE TABLE IF NOT EXISTS.club_name(
+    Userid INTEGER PRIMARY KEY
+    first_name TEXT NOT NULL
+    last_name TEXT NOT NULL
+    email text NOT NULL UNIQUE
+    year INTEGER NOT NULL
+    question1 TEXT NOT NULL
+    question2 TEXT NOT NULL
+    question3 TEXT 
+    question4 TEXT 
+    question5 TEXT 
+  );`);
+  response.render('club-home-page');
+})
+
+//After the submission of forms
+app.get('/submitted', function(requst, response){
+  db.run(`INSERT INTO club_name(Userid, first_name, last_name, email, year, question1, question2, question3, question4, question5) VALUES(?,?,?,?,?,?,?,?,?);`)
+})
