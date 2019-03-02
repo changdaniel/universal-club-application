@@ -165,12 +165,10 @@ app.get('/club-login-validation', function (request, response) {
 
 app.get('/club-signup-validation', function (request, response) {
 
-
-
   let sql = "SELECT ClubName FROM clubInfo WHERE ClubName = '" + request.query.clubname + "'";
   console.log('before each method')
   console.log(sql)
- 
+
   db.each(sql, [], (err, row) => {
 
     console.log('after each method')
@@ -198,16 +196,24 @@ app.get('/club-signup-validation', function (request, response) {
 
 app.get('/directory', function (request, response) {
 
+  var sql = "select ClubName from clubInfo";
+  var clubnames = [];
+
+  db.each(sql, [], (err, row) => {
+    if (err) {
+      throw err;
+    }
+    clubnames = row['ClubName']
+    console.log(clubnames)
+    response.render('directory-page', {clubnames, clubnames})
+    return;
+    })
+
+  })
 
 
-  response.render("directory-page")
-  
+function directoryFetch() {
 
-})
-
-function directoryFetch()
-{
-  
 }
 
 
